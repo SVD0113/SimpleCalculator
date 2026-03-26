@@ -115,7 +115,7 @@ namespace SimpleCalculator
         private void btnCE_Click(object sender, EventArgs e)
         {
             // 현재 입력 중인 txtOutput만 비우기
-            txtOutput.Clear(); 
+            txtOutput.Clear();
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
