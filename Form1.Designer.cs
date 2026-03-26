@@ -70,7 +70,7 @@
             // 
             // txtOutput
             // 
-            txtOutput.Location = new Point(18, 97);
+            txtOutput.Location = new Point(18, 143);
             txtOutput.Multiline = true;
             txtOutput.Name = "txtOutput";
             txtOutput.Size = new Size(377, 40);
@@ -78,7 +78,7 @@
             // 
             // txtInput
             // 
-            txtInput.Location = new Point(18, 143);
+            txtInput.Location = new Point(18, 89);
             txtInput.Multiline = true;
             txtInput.Name = "txtInput";
             txtInput.Size = new Size(377, 40);
@@ -334,7 +334,7 @@
             // 
             pictureBox1.BackColor = SystemColors.AppWorkspace;
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(404, 0);
+            pictureBox1.Location = new Point(543, 1);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(450, 450);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -346,7 +346,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.AppWorkspace;
-            ClientSize = new Size(866, 450);
+            ClientSize = new Size(938, 450);
             Controls.Add(pictureBox1);
             Controls.Add(txtTitle);
             Controls.Add(btnDot);
