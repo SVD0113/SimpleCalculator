@@ -1,3 +1,5 @@
+using System;
+using System.Windows.Forms;
 using Microsoft.VisualBasic;
 using System.Text.RegularExpressions;
 
@@ -33,7 +35,7 @@ namespace SimpleCalculator
 
         private void btnPlus_Click(object sender, EventArgs e)
         {
-            
+            // 빈 공간 (사용 안 함)
         }
 
         private void btnResult_Click_1(object sender, EventArgs e)
@@ -68,24 +70,24 @@ namespace SimpleCalculator
 
         private void btnResult_Click(object sender, EventArgs e)
         {
-
+            // 빈 공간 (사용 안 함)
         }
 
         private void btnNum0_Click(object sender, EventArgs e)
         {
-
+            // 빈 공간 (사용 안 함)
         }
 
         private void btnOperator_Click(object sender, EventArgs e)
         {
             // 빈칸 방어
             if (txtOutput.Text == "") return;
-            버트
+
             // 1. 어떤 기호 버튼이 눌렸는지 확인합니다 (+, -, *, / 중 하나)
             Button btn = (Button)sender;
 
             // 눌린 기호를 currentOperator 변수에 저장
-            currentOperator = btn.Text; 
+            currentOperator = btn.Text;
 
             // 2. 입력된 문자를 숫자로 변환해서 num1에 저장
             num1 = int.Parse(txtOutput.Text);
@@ -95,6 +97,36 @@ namespace SimpleCalculator
 
             // 4. 다음 숫자 입력을 위해 아래쪽 창 비우기
             txtOutput.Clear();
+        }
+
+        private void btnC_Click(object sender, EventArgs e)
+        {
+            // txt Input/Output 모두 비우기
+            txtInput.Clear();
+            txtOutput.Clear();
+
+            // 기억해둔 숫자와 연산자도 모두 초기화
+            num1 = 0;
+            num2 = 0;
+            result = 0;
+            currentOperator = "";
+        }
+
+        private void btnCE_Click(object sender, EventArgs e)
+        {
+            // 현재 입력 중인 txtOutput만 비우기
+            txtOutput.Clear();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            // 텍스트박스에 글자가 하나라도 있는지 확인 (길이가 0보다 클 때만 작동)
+            if (txtOutput.Text.Length > 0)
+            {
+                // 맨 뒤의 한 글자를 제외하고 잘라내서 다시 저장
+                // Substring(시작점, 몇개) : 0번째(처음)부터 (전체길이 - 1)개까지만 가져옵니다.
+                txtOutput.Text = txtOutput.Text.Substring(0, txtOutput.Text.Length - 1);
+            }
         }
     }
 }
