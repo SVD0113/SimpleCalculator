@@ -33,6 +33,9 @@ namespace SimpleCalculator
 
         private void btnPlus_Click(object sender, EventArgs e)
         {
+            // txtOutput이 빈칸이면 아무것도 하지 않고 종료(return)합니다.
+            if (txtOutput.Text == "") return;
+
             // 1. txtOutpput의 문자를 숫자로 변환해서 저장
             num1 = int.Parse(txtOutput.Text);
 
@@ -45,6 +48,9 @@ namespace SimpleCalculator
 
         private void btnResult_Click_1(object sender, EventArgs e)
         {
+            // txtOutput이 빈칸이면 계산하지 않고 종료합니다.
+            if (txtOutput.Text == "") return;
+
             // 1. 더하기 누른 후 두 번째로 입력한 숫자를(문자->숫자) num2에 저장
             num2 = int.Parse(txtOutput.Text);
 

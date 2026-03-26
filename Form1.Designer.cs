@@ -64,7 +64,7 @@
             btnNum1.Name = "btnNum1";
             btnNum1.Size = new Size(90, 45);
             btnNum1.TabIndex = 0;
-            btnNum1.Text = " 1";
+            btnNum1.Text = "1";
             btnNum1.UseVisualStyleBackColor = false;
             btnNum1.Click += btnNum_Click;
             // 
