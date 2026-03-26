@@ -355,6 +355,7 @@
             btnParenLeft.TabIndex = 24;
             btnParenLeft.Text = "(";
             btnParenLeft.UseVisualStyleBackColor = false;
+            btnParenLeft.Click += btnParenLeft_Click;
             // 
             // btnParenRight
             // 
@@ -366,6 +367,7 @@
             btnParenRight.TabIndex = 25;
             btnParenRight.Text = ")";
             btnParenRight.UseVisualStyleBackColor = false;
+            btnParenRight.Click += btnParenRight_Click;
             // 
             // Form1
             // 

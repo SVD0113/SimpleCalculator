@@ -6,14 +6,14 @@ namespace SimpleCalculator
 {
     public partial class Form1 : Form
     {
-        bool isCalculated = false; // 계산 완료 여부
+        bool isCalculated = false;
 
         public Form1()
         {
             InitializeComponent();
         }
 
-        // 1. 숫자 버튼 클릭 (0~9) - txtInput과 txtOutput에 출력
+        // 1. 숫자 버튼: 치는 대로 위아래 창에 표시
         private void btnNum_Click(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
@@ -29,55 +29,69 @@ namespace SimpleCalculator
             txtInput.Text += btn.Text;
         }
 
-        // 2. 연산자 버튼 클릭 (+, -, X, ÷) - txtOutput 초기화
+        // 2. [수정됨] 연산자 버튼 (+, -, X, ÷): 아래 창 비우고 위 창에 기호만 추가
         private void btnOperator_Click(object sender, EventArgs e)
         {
-            if (txtInput.Text == "" && txtOutput.Text == "") return;
+            if (string.IsNullOrWhiteSpace(txtInput.Text)) return;
 
             Button btn = (Button)sender;
+            string op = btn.Text;
 
-            // 아래쪽 창은 다음 입력을 위해 비움
-            txtOutput.Clear();
-
+            // 이미 결과가 나온 상태면 결과값 뒤에 연산자 붙여서 이어서 계산
             if (isCalculated)
             {
-                // 이전 결과값이 있는 경우 결과값 뒤에 연산자 붙여서 시작
                 string lastResult = txtOutput.Text;
-                txtInput.Text = lastResult + " " + btn.Text + " ";
+                txtInput.Text = lastResult + " " + op + " ";
                 isCalculated = false;
             }
             else
             {
-                txtInput.Text += " " + btn.Text + " ";
+                txtInput.Text += " " + op + " ";
             }
+
+            txtOutput.Clear(); // 다음 숫자를 위해 아래 창 비우기
         }
 
-        // 3. 결과(=) 버튼 클릭 - 디자인 파일에 적힌 btnResult_Click_1 로 맞춤
+        // 3. [수정됨] 결과(=) 버튼: 여기서만 실제 계산을 수행함
         private void btnResult_Click_1(object sender, EventArgs e)
         {
-            if (txtInput.Text == "" || isCalculated) return;
+            if (string.IsNullOrWhiteSpace(txtInput.Text) || isCalculated) return;
 
             try
             {
-                // X와 ÷를 연산 가능한 기호로 변환
-                string expression = txtInput.Text.Replace("X", "*").Replace("÷", "/");
-                var result = new DataTable().Compute(expression, null);
+                string expression = txtInput.Text.Trim();
 
-                // 상단: 전체 수식 = 결과
-                txtInput.Text += " = " + result.ToString();
-                // 하단: 최종 결과만
+                // 수식 끝에 연산자가 남았으면 제거
+                char[] ops = { '+', '-', 'X', '÷', '*', '/' };
+                expression = expression.TrimEnd(ops).Trim();
+
+                // 기호 변환
+                string finalExpr = expression.Replace("X", "*").Replace("÷", "/");
+
+                // [핵심] 암시적 곱셈 처리 ( 2(3) -> 2*(3) )
+                for (int i = 0; i < 10; i++)
+                {
+                    finalExpr = finalExpr.Replace(i.ToString() + "(", i.ToString() + "*(");
+                    finalExpr = finalExpr.Replace(")" + i.ToString(), ")*" + i.ToString());
+                }
+                finalExpr = finalExpr.Replace(")(", ")*(");
+
+                // DataTable로 계산
+                DataTable dt = new DataTable();
+                var result = dt.Compute(finalExpr, "");
+
+                // 결과 표시
+                txtInput.Text = expression + " = " + result.ToString();
                 txtOutput.Text = result.ToString();
-
                 isCalculated = true;
             }
             catch (Exception)
             {
-                MessageBox.Show("수식이 잘못되었습니다.");
-                btnC_Click(sender, e);
+                MessageBox.Show("수식이 올바르지 않습니다.");
             }
         }
 
-        // 4. C(Clear) 버튼 클릭
+        // 4. 초기화 및 삭제 버튼들
         private void btnC_Click(object sender, EventArgs e)
         {
             txtInput.Clear();
@@ -85,32 +99,35 @@ namespace SimpleCalculator
             isCalculated = false;
         }
 
+        private void btnCE_Click(object sender, EventArgs e)
+        {
+            int len = txtOutput.Text.Length;
+            txtOutput.Clear();
+            if (txtInput.Text.Length >= len)
+                txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - len);
+        }
+
         private void btnDelete_Click(object sender, EventArgs e)
         {
             if (txtOutput.Text.Length > 0)
             {
-                // txtOutput에서 마지막 한 글자 제거
                 txtOutput.Text = txtOutput.Text.Substring(0, txtOutput.Text.Length - 1);
-
-                // txtInput에서도 마지막 한 글자 제거 (수식 동기화)
                 if (txtInput.Text.Length > 0)
-                {
                     txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - 1);
-                }
             }
         }
 
-        private void btnCE_Click(object sender, EventArgs e)
+        private void btnParenLeft_Click(object sender, EventArgs e)
         {
-            // 아래쪽 창(현재 입력 중인 숫자)만 비우기
-            int lengthToRemove = txtOutput.Text.Length;
+            if (isCalculated) { btnC_Click(null, null); }
             txtOutput.Clear();
+            txtInput.Text += "(";
+        }
 
-            // 위쪽 창(전체 수식)에서도 방금 입력한 숫자만큼만 뒤에서 지우기
-            if (txtInput.Text.Length >= lengthToRemove)
-            {
-                txtInput.Text = txtInput.Text.Substring(0, txtInput.Text.Length - lengthToRemove);
-            }
+        private void btnParenRight_Click(object sender, EventArgs e)
+        {
+            txtOutput.Clear();
+            txtInput.Text += ")";
         }
     }
 }
