@@ -33,40 +33,42 @@ namespace SimpleCalculator
 
         private void btnPlus_Click(object sender, EventArgs e)
         {
-            // txtOutput이 빈칸이면 아무것도 하지 않고 종료(return)합니다.
-            if (txtOutput.Text == "") return;
-
-            // 1. txtOutpput의 문자를 숫자로 변환해서 저장
-            num1 = int.Parse(txtOutput.Text);
-
-            // 2. Input에 현재 상황 표시
-            txtInput.Text = txtOutput.Text + " + ";
-
-            // 3. 다음 숫자 입력을 위해 txtOutput 초기화
-            txtOutput.Clear();
+            
         }
 
         private void btnResult_Click_1(object sender, EventArgs e)
         {
-            // txtOutput이 빈칸이면 계산하지 않고 종료합니다.
+            // 빈칸 방어막
             if (txtOutput.Text == "") return;
 
-            // 1. 더하기 누른 후 두 번째로 입력한 숫자를(문자->숫자) num2에 저장
+            // 두 번째 숫자를 num2에 저장
             num2 = int.Parse(txtOutput.Text);
 
-            // 2. 더하기 계산
-            result = num1 + num2;
+            // 저장된 연산자(currentOperator)가 무엇인지에 따라 다르게 계산 (switch 문)
+            switch (currentOperator)
+            {
+                case "+":
+                    result = num1 + num2;
+                    break;
+                case "-":
+                    result = num1 - num2;
+                    break;
+                case "X": // 곱하기 
+                    result = num1 * num2;
+                    break;
+                case "÷": // 나누기 
+                    result = num1 / num2;
+                    break;
+            }
 
-            // 3. txtInput에 최종 수식
+            // 최종 수식과 결과 표시
             txtInput.Text = txtInput.Text + txtOutput.Text + " = ";
-
-            // 4. 계산된 숫자를 다시 문자로 변환해서 txtOutput에 표시
             txtOutput.Text = result.ToString();
         }
 
         private void btnResult_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void btnNum0_Click(object sender, EventArgs e)
@@ -74,6 +76,25 @@ namespace SimpleCalculator
 
         }
 
-        
+        private void btnOperator_Click(object sender, EventArgs e)
+        {
+            // 빈칸 방어
+            if (txtOutput.Text == "") return;
+            버트
+            // 1. 어떤 기호 버튼이 눌렸는지 확인합니다 (+, -, *, / 중 하나)
+            Button btn = (Button)sender;
+
+            // 눌린 기호를 currentOperator 변수에 저장
+            currentOperator = btn.Text; 
+
+            // 2. 입력된 문자를 숫자로 변환해서 num1에 저장
+            num1 = int.Parse(txtOutput.Text);
+
+            // 3. 위쪽 창에 진행 상황 표시 
+            txtInput.Text = txtOutput.Text + " " + currentOperator + " ";
+
+            // 4. 다음 숫자 입력을 위해 아래쪽 창 비우기
+            txtOutput.Clear();
+        }
     }
 }

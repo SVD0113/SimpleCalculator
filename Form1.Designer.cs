@@ -131,6 +131,7 @@
             btnMultiply.TabIndex = 6;
             btnMultiply.Text = "X";
             btnMultiply.UseVisualStyleBackColor = false;
+            btnMultiply.Click += btnOperator_Click;
             // 
             // btnCE
             // 
@@ -203,7 +204,7 @@
             btnPlus.TabIndex = 12;
             btnPlus.Text = "+";
             btnPlus.UseVisualStyleBackColor = false;
-            btnPlus.Click += btnPlus_Click;
+            btnPlus.Click += btnOperator_Click;
             // 
             // btnNum5
             // 
@@ -252,6 +253,7 @@
             btnMinus.TabIndex = 16;
             btnMinus.Text = "-";
             btnMinus.UseVisualStyleBackColor = false;
+            btnMinus.Click += btnOperator_Click;
             // 
             // btnDivide
             // 
@@ -264,6 +266,7 @@
             btnDivide.TabIndex = 17;
             btnDivide.Text = "÷";
             btnDivide.UseVisualStyleBackColor = false;
+            btnDivide.Click += btnOperator_Click;
             // 
             // btnSign
             // 
@@ -368,6 +371,7 @@
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
+            Click += btnOperator_Click;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
